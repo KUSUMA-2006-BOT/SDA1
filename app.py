@@ -103,20 +103,21 @@ bmi_map = {
 
 if st.button("Predict Sleep Disorder", use_container_width=True):
 
-    sample = pd.DataFrame({
-        "Gender": [gender_map[gender]],
-        "Age": [age],
-        "Occupation": [occupation_map[occupation]],
-        "Sleep Duration": [sleep_duration],
-        "Quality of Sleep": [quality_of_sleep],
-        "Physical Activity Level": [physical_activity],
-        "Stress Level": [stress_level],
-        "BMI Category": [bmi_map[bmi_category]],
-        "Heart Rate": [heart_rate],
-        "Daily Steps": [daily_steps],
-        "Systolic": [systolic],
-        "Diastolic": [diastolic]
-    })
+   sample = pd.DataFrame({
+    "Person ID": [1],   # Dummy value
+    "Gender": [gender_map[gender]],
+    "Age": [age],
+    "Occupation": [occupation_map[occupation]],
+    "Sleep Duration": [sleep_duration],
+    "Quality of Sleep": [quality_of_sleep],
+    "Physical Activity Level": [physical_activity],
+    "Stress Level": [stress_level],
+    "BMI Category": [bmi_map[bmi_category]],
+    "Heart Rate": [heart_rate],
+    "Daily Steps": [daily_steps],
+    "Systolic": [systolic],
+    "Diastolic": [diastolic]
+})
 
     st.write(sample)
     st.write(sample.dtypes)
