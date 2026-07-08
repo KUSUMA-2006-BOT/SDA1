@@ -92,9 +92,10 @@ if st.button("Predict Sleep Disorder", use_container_width=True):
         }
     )
 
-    # Encode categorical columns using the saved LabelEncoders
-    for col, encoder in encoders.items():
-        sample[col] = encoder.transform(sample[col])
+    # Encode categorical columns
+    sample["Gender"] = encoders["Gender"].transform(sample["Gender"])
+    sample["Occupation"] = encoders["Occupation"].transform(sample["Occupation"])
+    sample["BMI Category"] = encoders["BMI Category"].transform(sample["BMI Category"])
 
     # Predict
     prediction = model.predict(sample)
