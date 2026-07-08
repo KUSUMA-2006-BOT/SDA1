@@ -118,6 +118,10 @@ if st.button("Predict Sleep Disorder", use_container_width=True):
         "Diastolic": [diastolic]
     })
 
+    st.write(sample)
+    st.write(sample.dtypes)
+    st.write(model.feature_names_in_)
+
     prediction = model.predict(sample)
     result = prediction[0]
 
