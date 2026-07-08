@@ -22,7 +22,6 @@ def load_model():
 try:
     model_data = load_model()
     model = model_data["model"]
-    encoders = model_data["encoders"]
 except Exception as e:
     st.exception(e)
     st.stop()
@@ -72,38 +71,59 @@ with col3:
 
 st.divider()
 
+# -------------------------------
+# Manual Encoding
+# -------------------------------
+
+gender_map = {
+    "Female": 0,
+    "Male": 1
+}
+
+occupation_map = {
+    "Accountant": 0,
+    "Doctor": 1,
+    "Engineer": 2,
+    "Lawyer": 3,
+    "Manager": 4,
+    "Nurse": 5,
+    "Sales Representative": 6,
+    "Salesperson": 7,
+    "Scientist": 8,
+    "Software Engineer": 9,
+    "Teacher": 10
+}
+
+bmi_map = {
+    "Normal": 0,
+    "Normal Weight": 1,
+    "Overweight": 2,
+    "Obese": 3
+}
+
 if st.button("Predict Sleep Disorder", use_container_width=True):
 
-    # Build DataFrame with raw values
-    sample = pd.DataFrame(
-        {
-            "Gender": [gender],
-            "Age": [age],
-            "Occupation": [occupation],
-            "Sleep Duration": [sleep_duration],
-            "Quality of Sleep": [quality_of_sleep],
-            "Physical Activity Level": [physical_activity],
-            "Stress Level": [stress_level],
-            "BMI Category": [bmi_category],
-            "Heart Rate": [heart_rate],
-            "Daily Steps": [daily_steps],
-            "Systolic": [systolic],
-            "Diastolic": [diastolic],
-        }
-    )
+    sample = pd.DataFrame({
+        "Gender": [gender_map[gender]],
+        "Age": [age],
+        "Occupation": [occupation_map[occupation]],
+        "Sleep Duration": [sleep_duration],
+        "Quality of Sleep": [quality_of_sleep],
+        "Physical Activity Level": [physical_activity],
+        "Stress Level": [stress_level],
+        "BMI Category": [bmi_map[bmi_category]],
+        "Heart Rate": [heart_rate],
+        "Daily Steps": [daily_steps],
+        "Systolic": [systolic],
+        "Diastolic": [diastolic]
+    })
 
-    # Encode categorical columns
-    sample["Gender"] = encoders["Gender"].transform(sample["Gender"])
-    sample["Occupation"] = encoders["Occupation"].transform(sample["Occupation"])
-    sample["BMI Category"] = encoders["BMI Category"].transform(sample["BMI Category"])
-
-    # Predict
     prediction = model.predict(sample)
     result = prediction[0]
 
     if result == "None":
-        st.success("The model predicts that the patient is **unlikely** to have any sleep disorder.")
+        st.success("The model predicts that the patient is unlikely to have any sleep disorder.")
     elif result == "Insomnia":
-        st.warning("The model predicts that the patient is likely to have **Insomnia**.")
+        st.warning("The model predicts that the patient is likely to have Insomnia.")
     else:
-        st.error("The model predicts that the patient is likely to have **Sleep Apnea**.")
+        st.error("The model predicts that the patient is likely to have Sleep Apnea.")
